@@ -38,13 +38,16 @@ public_tweets = api.home_timeline()
 st.set_option('deprecation.showPyplotGlobalUse', False)
 def app():
 
+
 	st.title("Twitter Sentiment Analysis ")
+
 
 	activities=["Tweet Analyzer","Generate Twitter Data"]
 
 	choice = st.sidebar.selectbox("Select Your Activity",activities)
 
 	
+
 	if choice=="Tweet Analyzer":
 
 		st.subheader("Analyze the Tweets ")
@@ -54,6 +57,7 @@ def app():
 		st.write("1. Fetches recent Tweets from given handle")
 		st.write("2. Generates a Word Cloud")
 		st.write("3. Sentiment Analysis of Tweets and visualize them as graph")
+
 
 		raw_text = st.text_area("Enter the Twitter handle ")
 
@@ -93,6 +97,7 @@ def app():
 				st.write(recent_tweets)
 
 
+
 			elif Analyzer_choice=="Generate WordCloud":
 
 				st.success("Generating Word Cloud")
@@ -120,37 +125,47 @@ def app():
 
 
 			else:
+
+				
 				def Plot_Analysis():
 
 					st.success("Generating Visualisation for Sentiment Analysis")
+
+					
+
 
 					posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
 
 					df = pd.DataFrame([tweet.full_text for tweet in posts], columns=['Tweets'])
 
+
+					
 					# Create a function to clean the tweets
 					def cleanTxt(text):
-    						
-						text = re.sub('@[A-Za-z0–9]+', '', text) #Removing @mentions
-						text = re.sub('#', '', text) # Removing '#' hash tag
-						text = re.sub('RT[\s]+', '', text) # Removing RT
-						text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
-						
-						return text
+					 text = re.sub('@[A-Za-z0–9]+', '', text) #Removing @mentions
+					 text = re.sub('#', '', text) # Removing '#' hash tag
+					 text = re.sub('RT[\s]+', '', text) # Removing RT
+					 text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
+					 
+					 return text
+
 
 					# Clean the tweets
 					df['Tweets'] = df['Tweets'].apply(cleanTxt)
+
 
 					def getSubjectivity(text):
 					   return TextBlob(text).sentiment.subjectivity
 
 					# Create a function to get the polarity
 					def getPolarity(text):
-						return  TextBlob(text).sentiment.polarity
+					   return  TextBlob(text).sentiment.polarity
+
 
 					# Create two new columns 'Subjectivity' & 'Polarity'
 					df['Subjectivity'] = df['Tweets'].apply(getSubjectivity)
 					df['Polarity'] = df['Tweets'].apply(getPolarity)
+
 
 					def getAnalysis(score):
 					  if score < 0:
@@ -162,15 +177,23 @@ def app():
 					    
 					df['Analysis'] = df['Polarity'].apply(getAnalysis)
 
+
 					return df
+
+
 
 				df= Plot_Analysis()
 
+
+
 				st.write(sns.countplot(x=df["Analysis"],data=df))
+
 
 				st.pyplot(fig=None,use_container_width=True)
 
 				st.set_option('deprecation.showPyplotGlobalUse', False)
+
+	
 
 	else:
 
@@ -181,6 +204,11 @@ def app():
 		st.write("3. Analyzes Subjectivity of tweets ")
 		st.write("4. Analyzes Polarity of tweets ")
 		st.write("5. Analyzes Sentiments of tweets")
+
+
+
+
+
 
 		user_name = st.text_area("*Enter the Twitter handle (without @)*")
 
@@ -201,6 +229,7 @@ def app():
 
 			# Clean the tweets
 			df['Tweets'] = df['Tweets'].apply(cleanTxt)
+
 
 			def getSubjectivity(text):
 				return TextBlob(text).sentiment.subjectivity
@@ -224,7 +253,9 @@ def app():
 
 				else:
 					return 'Positive'
-			    
+
+		
+						    
 			df['Analysis'] = df['Polarity'].apply(getAnalysis)
 			return df
 
@@ -236,7 +267,9 @@ def app():
 
 			st.write(df)
 
+
 	st.subheader("-------------------------------Made by @Akash-------------------------       ")
+
 
 if __name__ == "__main__":
 	app()
