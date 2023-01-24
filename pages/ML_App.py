@@ -189,7 +189,7 @@ def app():
 				st.write(sns.countplot(x=df["Analysis"],data=df))
 
 
-				st.pyplot(fig=None,use_container_width=True)
+				st.pyplot(fig=None)
 
 				st.set_option('deprecation.showPyplotGlobalUse', False)
 
