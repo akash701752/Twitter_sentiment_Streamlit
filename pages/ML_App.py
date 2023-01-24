@@ -130,12 +130,13 @@ def app():
 
 					# Create a function to clean the tweets
 					def cleanTxt(text):
-					 text = re.sub('@[A-Za-z0–9]+', '', text) #Removing @mentions
-					 text = re.sub('#', '', text) # Removing '#' hash tag
-					 text = re.sub('RT[\s]+', '', text) # Removing RT
-					 text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
-					 
-					 return text
+    						
+						text = re.sub('@[A-Za-z0–9]+', '', text) #Removing @mentions
+						text = re.sub('#', '', text) # Removing '#' hash tag
+						text = re.sub('RT[\s]+', '', text) # Removing RT
+						text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
+						
+						return text
 
 					# Clean the tweets
 					df['Tweets'] = df['Tweets'].apply(cleanTxt)
@@ -145,7 +146,7 @@ def app():
 
 					# Create a function to get the polarity
 					def getPolarity(text):
-					   return  TextBlob(text).sentiment.polarity
+						return  TextBlob(text).sentiment.polarity
 
 					# Create two new columns 'Subjectivity' & 'Polarity'
 					df['Subjectivity'] = df['Tweets'].apply(getSubjectivity)
