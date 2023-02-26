@@ -132,6 +132,6 @@ watchdog==2.1.9
 wcwidth==0.2.5
 webencodings==0.5.1
 websocket-client==1.4.1
-wordcloud==1.8.2.2
+wordcloud
 yarg==0.1.9
 zipp==3.11.0
