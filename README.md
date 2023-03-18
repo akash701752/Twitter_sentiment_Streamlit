@@ -28,3 +28,24 @@ Overall, Twitter sentiment analysis is a valuable tool for businesses, organizat
    b) Generate Wordcloud
    c) Visualize Sentiments
 4. Click Anazyze
+
+# Languages Used
+Python. 
+I develop this project using Python.
+
+# Libraries Used
+Tweepy: A Python library that provides easy access to the Twitter API. It allows you to collect tweets, analyze them, and extract relevant information such as user data, tweet text, and metadata.
+
+NLTK: A Python library that provides a suite of natural language processing tools. It includes functions for text classification, tokenization, and sentiment analysis.
+
+TextBlob: A Python library that provides a simple API for performing common natural language processing tasks, including sentiment analysis. It uses a pre-trained sentiment analyzer that can classify text as positive, negative, or neutral.
+
+VaderSentiment: A Python library that is specifically designed for sentiment analysis on social media platforms like Twitter. It uses a lexicon-based approach to classify text as positive, negative, or neutral.
+
+Scikit-learn: A Python library that provides machine learning tools for text classification and sentiment analysis. It includes algorithms such as Naive Bayes, Logistic Regression, and Support Vector Machines that can be used for sentiment analysis.
+
+Gensim: A Python library that provides tools for topic modeling and natural language processing. It includes functions for analyzing text data, clustering, and sentiment analysis.
+
+# Framework Used
+Streamlit
+
