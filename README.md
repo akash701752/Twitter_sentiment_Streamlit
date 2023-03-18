@@ -31,6 +31,7 @@ Overall, Twitter sentiment analysis is a valuable tool for businesses, organizat
 
 # Languages Used
 Python. 
+![Python](python.png)
 I develop this project using Python.
 
 # Libraries Used
@@ -47,5 +48,11 @@ Scikit-learn: A Python library that provides machine learning tools for text cla
 Gensim: A Python library that provides tools for topic modeling and natural language processing. It includes functions for analyzing text data, clustering, and sentiment analysis.
 
 # Framework Used
-Streamlit
+Streamlit.  
+![Python](Streamlit.png)
+
+# Source
+Youtube : https://www.youtube.com/
+Python documentation : https://docs.python.org/3/
+Kaggle : https://www.kaggle.com/
 
