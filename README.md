@@ -11,4 +11,10 @@ Twitter sentiment analysis can also be used for social listening, which involves
 Overall, Twitter sentiment analysis is a valuable tool for businesses, organizations, and individuals who want to monitor public opinion, gain insights into consumer behavior, and improve their social media presence.
 
 # Web-App
-![Web App](http://url/to/img.png)
+![Web App](Website.png)
+
+# Machine Learning Model
+![ML Model](MLApp.png)
+
+# Visualizations
+![ML Model](Sentiments.png)
