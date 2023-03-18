@@ -1,0 +1,2 @@
+# Twitter_sentiment_Streamlit
+The objective of Twitter sentiment analysis is to analyze the public opinion and emotional response towards a particular topic, brand, or event on Twitter. It involves extracting, processing, and categorizing tweets as positive, negative, or neutral, to understand the overall sentiment towards the subject of interest. The goal is to gain insights into how people feel about a topic, identify trends, and monitor changes in public opinion over time.
