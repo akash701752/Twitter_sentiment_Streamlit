@@ -20,13 +20,13 @@ Overall, Twitter sentiment analysis is a valuable tool for businesses, organizat
 ![ML Model](Sentiments.png)
 
 # How to Use
-1. Select ML APP from side bar
+1. Select ML APP from side bar.  
    a) ML App
 3. Enter a Twitter username without @
 4. Select options from drop down menu 
-   a) Show recent tweets
-   b) Generate Wordcloud
-   c) Visualize Sentiments
+   a) Show recent tweets.  
+   b) Generate Wordcloud.  
+   c) Visualize Sentiments. 
 4. Click Anazyze
 
 # Languages Used
