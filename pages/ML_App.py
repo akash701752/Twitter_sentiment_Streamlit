@@ -26,9 +26,15 @@ access_token_secret = config['tweets']['access_token_secret']
 auth = tweepy.OAuthHandler(api_key,api_key_secret)
 auth.set_access_token(access_token,access_token_secret)
 
-api = tweepy.API(auth,wait_on_rate_limit = True)
+# new APIv2
+bearer_token = config['tweets']['bearer_token']
 
-public_tweets = api.home_timeline()
+# Create Client object
+client = tweepy.Client(bearer_token=bearer_token)
+
+#api = tweepy.API(auth,wait_on_rate_limit = True)
+
+#public_tweets = api.home_timeline()
 
 # print(public_tweets[0].created_at)
 #print(public_tweets[0].user.screen_name)
@@ -77,7 +83,13 @@ def app():
 				def Show_Recent_Tweets(raw_text):
 
 					# Extract 100 tweets from the twitter user
-					posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+					#posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+
+					#new 
+					user = client.get_user(username=raw_text)
+					user_id = user.data.id
+					#user_id = raw_text  # Replace with the user's ID
+					posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
 
 					
 					def get_tweets():
@@ -104,7 +116,13 @@ def app():
 
 				def gen_wordcloud():
 
-					posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+					# posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+
+					#changed
+					user = client.get_user(username=raw_text)
+					user_id = user.data.id
+					posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+
 
 
 					# Create a dataframe with a column called Tweets
@@ -134,9 +152,14 @@ def app():
 					
 
 
-					posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+					#posts = api.user_timeline(screen_name=raw_text, count = 100, lang ="en", tweet_mode="extended")
+				 	# changed
+					user = client.get_user(username=raw_text)
+					user_id = user.data.id
+					posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
 
 					df = pd.DataFrame([tweet.full_text for tweet in posts], columns=['Tweets'])
+					
 
 
 					
@@ -215,8 +238,10 @@ def app():
 		#st.markdown("<--------     Also Do checkout the another cool tool from the sidebar")
 
 		def get_data(user_name):
-
-			posts = api.user_timeline(screen_name=user_name, count = 100, lang ="en", tweet_mode="extended")
+			user = client.get_user(username=user_name)
+			user_id = user.data.id
+			posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+			#posts = api.user_timeline(screen_name=user_name, count = 100, lang ="en", tweet_mode="extended")
 
 			df = pd.DataFrame([tweet.full_text for tweet in posts], columns=['Tweets'])
 
