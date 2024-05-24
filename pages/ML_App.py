@@ -8,11 +8,10 @@ import re
 import matplotlib.pyplot as plt
 from PIL import Image
 import seaborn as sns
-import sklearn
 import configparser
 
 # Twitter API configuration
-config = configparser.RawConfigParser()
+config = configparser.ConfigParser()
 config.read('config.ini')
 
 api_key = config['tweets']['api_key']
@@ -78,62 +77,82 @@ def app():
     st.subheader("-------------------------------Made by @Akash-------------------------")
 
 def show_recent_tweets(raw_text):
-    user = client.get_user(username=raw_text)
-    user_id = user.data.id
-    posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
-    return [tweet.text for tweet in posts.data[:5] if tweet.lang == 'en']
+    try:
+        user = client.get_user(username=raw_text)
+        user_id = user.data.id
+        posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+        return [tweet.text for tweet in posts.data[:5] if tweet.lang == 'en']
+    except tweepy.errors.Forbidden as e:
+        st.error(f"Error: {e}")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 def gen_wordcloud(raw_text):
-    user = client.get_user(username=raw_text)
-    user_id = user.data.id
-    posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
-    df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
-    allWords = ' '.join([twts for twts in df['Tweets']])
-    wordCloud = WordCloud(width=500, height=300, random_state=21, max_font_size=110).generate(allWords)
-    plt.imshow(wordCloud, interpolation="bilinear")
-    plt.axis('off')
-    plt.savefig('WC.jpg')
-    return Image.open("WC.jpg")
+    try:
+        user = client.get_user(username=raw_text)
+        user_id = user.data.id
+        posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+        df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
+        allWords = ' '.join([twts for twts in df['Tweets']])
+        wordCloud = WordCloud(width=500, height=300, random_state=21, max_font_size=110).generate(allWords)
+        plt.imshow(wordCloud, interpolation="bilinear")
+        plt.axis('off')
+        plt.savefig('WC.jpg')
+        return Image.open("WC.jpg")
+    except tweepy.errors.Forbidden as e:
+        st.error(f"Error: {e}")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 def plot_analysis(raw_text):
-    user = client.get_user(username=raw_text)
-    user_id = user.data.id
-    posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
-    df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
+    try:
+        user = client.get_user(username=raw_text)
+        user_id = user.data.id
+        posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+        df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
 
-    def cleanTxt(text):
-        text = re.sub('@[A-Za-z0–9]+', '', text) # Removing @mentions
-        text = re.sub('#', '', text) # Removing '#' hash tag
-        text = re.sub('RT[\s]+', '', text) # Removing RT
-        text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
-        return text
+        def cleanTxt(text):
+            text = re.sub('@[A-Za-z0–9]+', '', text) # Removing @mentions
+            text = re.sub('#', '', text) # Removing '#' hash tag
+            text = re.sub('RT[\s]+', '', text) # Removing RT
+            text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
+            return text
 
-    df['Tweets'] = df['Tweets'].apply(cleanTxt)
-    df['Subjectivity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.subjectivity)
-    df['Polarity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.polarity)
-    df['Analysis'] = df['Polarity'].apply(lambda score: 'Positive' if score > 0 else ('Neutral' if score == 0 else 'Negative'))
+        df['Tweets'] = df['Tweets'].apply(cleanTxt)
+        df['Subjectivity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.subjectivity)
+        df['Polarity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.polarity)
+        df['Analysis'] = df['Polarity'].apply(lambda score: 'Positive' if score > 0 else ('Neutral' if score == 0 else 'Negative'))
 
-    return df
+        return df
+    except tweepy.errors.Forbidden as e:
+        st.error(f"Error: {e}")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 def get_data(user_name):
-    user = client.get_user(username=user_name)
-    user_id = user.data.id
-    posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
-    df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
+    try:
+        user = client.get_user(username=user_name)
+        user_id = user.data.id
+        posts = client.get_users_tweets(id=user_id, max_results=100, tweet_fields=['lang', 'created_at'], expansions='author_id')
+        df = pd.DataFrame([tweet.text for tweet in posts.data], columns=['Tweets'])
 
-    def cleanTxt(text):
-        text = re.sub('@[A-Za-z0–9]+', '', text) # Removing @mentions
-        text = re.sub('#', '', text) # Removing '#' hash tag
-        text = re.sub('RT[\s]+', '', text) # Removing RT
-        text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
-        return text
+        def cleanTxt(text):
+            text = re.sub('@[A-Za-z0–9]+', '', text) # Removing @mentions
+            text = re.sub('#', '', text) # Removing '#' hash tag
+            text = re.sub('RT[\s]+', '', text) # Removing RT
+            text = re.sub('https?:\/\/\S+', '', text) # Removing hyperlink
+            return text
 
-    df['Tweets'] = df['Tweets'].apply(cleanTxt)
-    df['Subjectivity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.subjectivity)
-    df['Polarity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.polarity)
-    df['Analysis'] = df['Polarity'].apply(lambda score: 'Positive' if score > 0 else ('Neutral' if score == 0 else 'Negative'))
+        df['Tweets'] = df['Tweets'].apply(cleanTxt)
+        df['Subjectivity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.subjectivity)
+        df['Polarity'] = df['Tweets'].apply(lambda text: TextBlob(text).sentiment.polarity)
+        df['Analysis'] = df['Polarity'].apply(lambda score: 'Positive' if score > 0 else ('Neutral' if score == 0 else 'Negative'))
 
-    return df
+        return df
+    except tweepy.errors.Forbidden as e:
+        st.error(f"Error: {e}")
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     app()
